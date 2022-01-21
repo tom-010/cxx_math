@@ -14,17 +14,12 @@ load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
 
 bazel_skylib_workspace()
 
-git_repository(
-    name = "gtest",
-    branch = "release-1.11.0",
-    remote = "https://github.com/google/googletest",
-)
 
-# http_archive(
-#   name = "com_google_googletest",
-#   urls = ["https://github.com/google/googletest/archive/011959aafddcd30611003de96cfd8d7a7685c700.zip"],
-#   strip_prefix = "googletest-011959aafddcd30611003de96cfd8d7a7685c700",
-# )
+http_archive(
+    name = "gtest",
+    strip_prefix = "googletest-release-1.11.0",
+    urls = ["https://github.com/google/googletest/archive/refs/tags/release-1.11.0.zip"],
+)
 
 http_archive(
     name = "com_github_gflags_gflags",
@@ -42,6 +37,7 @@ http_archive(
 
 http_archive(
     name = "com_google_absl",
+    sha256 = "aabf6c57e3834f8dc3873a927f37eaf69975d4b28117fc7427dfb1c661542a87",
     strip_prefix = "abseil-cpp-98eb410c93ad059f9bba1bf43f5bb916fc92a5ea",
     urls = ["https://github.com/abseil/abseil-cpp/archive/98eb410c93ad059f9bba1bf43f5bb916fc92a5ea.zip"],
 )
@@ -66,6 +62,7 @@ http_archive(
 http_archive(
     name = "json",
     build_file = "//bazel/third_party:json.BUILD",
+    sha256 = "ea4b0084709fb934f92ca0a68669daa0fe6f2a2c6400bf353454993a834bb0bb",
     strip_prefix = "json-3.10.5",
     urls = [
         "https://github.com/nlohmann/json/archive/refs/tags/v3.10.5.zip",
