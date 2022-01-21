@@ -6,26 +6,25 @@
 #include <ranges>
 #include <vector>
 #include "absl/strings/str_join.h"
+#include "Eigen/Dense"
 
-void cpp_20_check()
+void check_cpp_20()
 {
     using std::views::filter;
+    using std::views::reverse;
     using std::views::transform;
-    using std::views::reverse;                       
-    
-    
-    std::vector<int> numbers = {6, 5, 4, 3, 2, 1}; 
-    
+
+    std::vector<int> numbers = {6, 5, 4, 3, 2, 1};
+
     // Lambda function that will provide filtering
     auto is_even = [](int n)
     { return n % 2 == 0; }; // Process our dataset
-    
-    auto results = numbers 
-                    | filter(is_even) 
-                    | transform([](int n) { return n++; }) 
-                    | reverse;
 
-    // Use lazy evaluation to print out the results 
+    auto results = numbers | filter(is_even) | transform([](int n)
+                                                         { return n++; }) |
+                   reverse;
+
+    // Use lazy evaluation to print out the results
     for (auto v : results)
     {
         std::cout << v << " "; // Output: 3 5 7
@@ -33,10 +32,23 @@ void cpp_20_check()
     std::cout << "cpp20 works" << std::endl;
 }
 
-void check_absl() {
+void check_absl()
+{
     std::vector<std::string> v = {"foo", "bar", "baz"};
     std::string s = absl::StrJoin(v, "-");
     std::cout << "absl works: " << s << std::endl;
+}
+
+void check_eigen()
+{
+    using Eigen::MatrixXd;
+    MatrixXd m(2, 2);
+    m(0, 0) = 3;
+    m(1, 0) = 2.5;
+    m(0, 1) = -1;
+    m(1, 1) = m(1, 0) + m(0, 1);
+    std::cout << m << std::endl;
+    std::cout << "Eigen workds" << std::endl;
 }
 
 int main(int argc, char **argv)
@@ -44,7 +56,8 @@ int main(int argc, char **argv)
     google::InitGoogleLogging(argv[0]); // GLOG_logtostderr=1 bazel run //main:hello_world
 
     check_absl();
-    cpp_20_check();
+    check_cpp_20();
+    check_eigen();
 
     std::string who = "world";
     if (argc > 1)

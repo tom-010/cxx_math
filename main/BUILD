@@ -12,7 +12,8 @@ cc_binary(
     deps = [
         ":hello_greet",
         "//lib:hello_time",
-        "@com_google_absl//absl/strings"
+        "@com_google_absl//absl/strings",
+        "@eigen//:eigen",
     ]
 )
 
@@ -21,7 +22,7 @@ cc_binary(
     srcs = ["benchmark.cc"],
     deps = [
         ":hello_greet",
-        "@com_google_benchmark//:benchmark"
+        "@com_google_benchmark//:benchmark",        
     ]
 )
 

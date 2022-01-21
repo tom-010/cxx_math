@@ -40,3 +40,13 @@ http_archive(
     strip_prefix = "benchmark-bf585a2789e30585b4e3ce6baf11ef2750b54677",
     sha256 = "2a778d821997df7d8646c9c59b8edb9a573a6e04c534c01892a40aa524a7b68c",
 )
+
+http_archive(
+    name = "eigen",
+    build_file = "//bazel/third_party:eigen.BUILD",
+    sha256="1ccaabbfe870f60af3d6a519c53e09f3dcf630207321dffa553564a8e75c4fc8",
+    strip_prefix = "eigen-3.4.0",
+    urls = [
+        "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip"
+    ]
+)
