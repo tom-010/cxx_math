@@ -11,6 +11,7 @@ cc_binary(
     srcs = ["hello_world.cc"],
     deps = [
         ":hello_greet",
+        "//messages:person_cc_proto",
         "//lib:hello_time",
         "@com_google_absl//absl/strings",
         "@eigen//:eigen",

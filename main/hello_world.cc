@@ -8,6 +8,8 @@
 #include "absl/strings/str_join.h"
 #include "Eigen/Dense"
 #include "nlohmann/json.hpp"
+#include "messages/address.pb.h" 
+
 
 void check_cpp_20()
 {
@@ -67,6 +69,18 @@ void check_json() {
     std::cout << "json works" << std::endl;
 }
 
+void check_proto() {
+    auto a = messages::Address();
+    a.set_city("Protobuf works");
+    auto s = a.SerializeAsString();
+    
+    auto a2 = messages::Address();
+    a2.ParseFromString(s);
+
+    std::cout << a2.city() << std::endl;
+
+}
+
 int main(int argc, char **argv)
 {
     google::InitGoogleLogging(argv[0]); // GLOG_logtostderr=1 bazel run //main:hello_world
@@ -75,6 +89,7 @@ int main(int argc, char **argv)
     check_cpp_20();
     check_eigen();
     check_json();
+    check_proto();
 
     std::string who = "world";
     if (argc > 1)
