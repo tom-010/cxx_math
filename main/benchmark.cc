@@ -1,7 +1,7 @@
 #include <benchmark/benchmark.h>
 #include "main/hello_greet.h"
 
-static void BM_get_greet(benchmark::State& state) {
+static void BM_get_greet(const benchmark::State& state) {
   // Perform setup here
   for (auto _ : state) {
     // This code gets timed

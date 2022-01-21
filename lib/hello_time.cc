@@ -2,8 +2,11 @@
 #include <ctime>
 #include <iostream>
 #include <glog/logging.h>
+#include <iomanip>
+#include <ctime>
 
 void print_localtime() {
-    std::time_t result =std::time(nullptr);
-    LOG(INFO) << std::asctime(std::localtime(&result));
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);
+    LOG(INFO) << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << std::endl;
 }

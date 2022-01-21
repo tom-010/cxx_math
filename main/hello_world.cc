@@ -56,10 +56,9 @@ void check_eigen()
 
 void check_json() {
     using json = nlohmann::json;
-    json j = "{ \"happy\": true, \"pi\": 3.141 }"_json;
 
     // or even nicer with a raw string literal
-    auto j2 = R"(
+    auto j = R"(
     {
         "happy": true,
         "pi": 3.141

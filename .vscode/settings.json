@@ -90,6 +90,14 @@
         "openglsupport": "cpp",
         "specialfunctions": "cpp",
         "splines": "cpp",
-        "eigenvalues": "cpp"
+        "eigenvalues": "cpp",
+        "*.inc": "cpp",
+        "cfenv": "cpp",
+        "complex": "cpp",
+        "future": "cpp",
+        "scoped_allocator": "cpp",
+        "span": "cpp",
+        "typeindex": "cpp",
+        "valarray": "cpp"
     },
 }
