@@ -50,3 +50,12 @@ http_archive(
         "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip"
     ]
 )
+
+http_archive(
+    name = "json",
+    build_file = "//bazel/third_party:json.BUILD",
+    strip_prefix = "json-3.10.5",
+    urls = [
+        "https://github.com/nlohmann/json/archive/refs/tags/v3.10.5.zip"
+    ]
+)

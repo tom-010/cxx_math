@@ -7,6 +7,7 @@
 #include <vector>
 #include "absl/strings/str_join.h"
 #include "Eigen/Dense"
+#include "nlohmann/json.hpp"
 
 void check_cpp_20()
 {
@@ -51,6 +52,21 @@ void check_eigen()
     std::cout << "Eigen workds" << std::endl;
 }
 
+void check_json() {
+    using json = nlohmann::json;
+    json j = "{ \"happy\": true, \"pi\": 3.141 }"_json;
+
+    // or even nicer with a raw string literal
+    auto j2 = R"(
+    {
+        "happy": true,
+        "pi": 3.141
+    }
+    )"_json;
+    std::cout << j << std::endl;
+    std::cout << "json works" << std::endl;
+}
+
 int main(int argc, char **argv)
 {
     google::InitGoogleLogging(argv[0]); // GLOG_logtostderr=1 bazel run //main:hello_world
@@ -58,6 +74,7 @@ int main(int argc, char **argv)
     check_absl();
     check_cpp_20();
     check_eigen();
+    check_json();
 
     std::string who = "world";
     if (argc > 1)

@@ -14,6 +14,7 @@ cc_binary(
         "//lib:hello_time",
         "@com_google_absl//absl/strings",
         "@eigen//:eigen",
+        "@json//:json"
     ]
 )
 
