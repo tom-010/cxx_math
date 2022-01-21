@@ -4,7 +4,8 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/bazel-bin/external/**"
+                "${workspaceFolder}/bazel-cxx_math/external/**",
+                "${workspaceFolder}/bazel-cxx_math/external/com_google_absl/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

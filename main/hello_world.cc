@@ -5,6 +5,7 @@
 #include <glog/logging.h>
 #include <ranges>
 #include <vector>
+#include "absl/strings/str_join.h"
 
 void cpp_20_check()
 {
@@ -29,11 +30,21 @@ void cpp_20_check()
     {
         std::cout << v << " "; // Output: 3 5 7
     }
+    std::cout << "cpp20 works" << std::endl;
+}
+
+void check_absl() {
+    std::vector<std::string> v = {"foo", "bar", "baz"};
+    std::string s = absl::StrJoin(v, "-");
+    std::cout << "absl works: " << s << std::endl;
 }
 
 int main(int argc, char **argv)
 {
     google::InitGoogleLogging(argv[0]); // GLOG_logtostderr=1 bazel run //main:hello_world
+
+    check_absl();
+    cpp_20_check();
 
     std::string who = "world";
     if (argc > 1)
