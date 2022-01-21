@@ -1,0 +1,5 @@
+.vscode
+bazel-bin
+bazel-cxx_math
+bazel-out
+bazel-testlogs
