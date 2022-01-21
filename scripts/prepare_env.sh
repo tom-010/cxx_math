@@ -2,7 +2,7 @@
 # Pick useful scripts from here: https://github.com/cartographer-project/cartographer/tree/master/scripts
 
 echo "install prerequisites"
-sudo apt install -y python
+sudo apt install -y python lcov
 
 echo "installing bazel..."
 sudo apt install apt-transport-https curl gnupg
