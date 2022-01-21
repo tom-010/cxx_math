@@ -20,4 +20,5 @@ TEST(MockShould, ReactProperly) {
 TEST(GreetingShould, ReturnHelloWorld) {
     EXPECT_EQ("Hello tom", get_greet("tom"));
     EXPECT_EQ("Hello bob", get_greet("bob"));
+    EXPECT_EQ(2, 2);
 }
