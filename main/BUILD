@@ -16,6 +16,15 @@ cc_binary(
     ]
 )
 
+cc_binary(
+    name = "benchmark",
+    srcs = ["benchmark.cc"],
+    deps = [
+        ":hello_greet",
+        "@com_google_benchmark//:benchmark"
+    ]
+)
+
 cc_test(
     name = "hello_test",
     srcs = [

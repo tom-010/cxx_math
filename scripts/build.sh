@@ -2,4 +2,4 @@
 
 set -e
 
-BAZEL_CXXOPTS="-std=c++20" bazel build ...
+BAZEL_CXXOPTS="-std=c++20" bazel build ... --compilation_mode=opt
