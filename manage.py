@@ -1,11 +1,16 @@
 import os
 import sys 
+import re
 
 h_template = '''
 #ifndef LIB_<<LIB_NAME>>_H_
 #define LIB_<<LIB_NAME>>_H_
 
+<<start_of_namespace>>
+
 int <<lib_name>>();
+
+<<end_of_namespace>>
 
 #endif
 '''
@@ -14,9 +19,13 @@ cc_template = '''
 #include "<<lib_name>>.h"
 #include <glog/logging.h>
 
+<<start_of_namespace>>
+
 int <<lib_name>>() {
     return 0;
 }
+
+<<end_of_namespace>>
 '''
 
 BUILD_template = '''
@@ -57,6 +66,8 @@ test_template = '''
 #include "gmock/gmock.h"
 #include "<<lib_name>>.h"
 
+using namespace <<full_namespace>>;
+
 TEST(<<lib_name>>, nothing) {
     EXPECT_EQ(<<lib_name>>(), 1);
 }
@@ -65,6 +76,8 @@ TEST(<<lib_name>>, nothing) {
 benchmark_template = '''
 #include <benchmark/benchmark.h>
 #include "<<lib_name>>.h"
+
+using namespace <<full_namespace>>;
 
 static void BM_<<lib_name>>(benchmark::State& state) {
   // Perform setup here
@@ -80,6 +93,9 @@ BENCHMARK(BM_<<lib_name>>);
 BENCHMARK_MAIN();
 '''
 
+def snake_case(s):
+    return re.sub(r'(?<!^)(?=[A-Z])', '_', s).lower()
+
 def create_file(path, template):
     template = '\n'.join(template.split('\n')[1:])
     lib_name = path.split('/')[-2]
@@ -87,6 +103,31 @@ def create_file(path, template):
     template = template.replace('<<lib_name>>', lib_name)
     template = template.replace('<<full_lib_name>>', full_lib_name)
     template = template.replace('<<LIB_NAME>>', full_lib_name.upper().replace('/', '_'))
+
+    parts = path.split('/')[1:-1]
+    full_namespace = '::'.join([snake_case(s) for s in parts])
+    start_of_namespace = 'namespace ' + full_namespace + ' {'
+    end_of_namespace = '}'
+    
+    indent = '  '
+    t = []
+    indenting = False
+    for line in template.split('\n'):
+        if '<<end_of_namespace>>' in line:
+            indenting = False
+        if indenting:
+            line = indent + line
+        if '<<start_of_namespace>>' in line:
+            indenting = True
+        t.append(line)
+    template = '\n'.join(t)
+
+
+    
+    template = template.replace('<<full_namespace>>', full_namespace)
+    template = template.replace('<<start_of_namespace>>', start_of_namespace)
+    template = template.replace('<<end_of_namespace>>', end_of_namespace)
+
     with open(path, 'w') as file:
         file.write(template)
 
