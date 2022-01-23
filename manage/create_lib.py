@@ -65,6 +65,16 @@ cc_binary(
         "@com_google_benchmark//:benchmark",        
     ]
 )
+
+cc_binary(
+    name = "<<lib_name>>_sample",
+    srcs = ["<<lib_name>>_sample.cc"],
+    deps = [
+        ":<<lib_name>>",
+        "@com_github_google_glog//:glog"
+    ]
+)
+
 '''
 
 test_template = '''
@@ -97,6 +107,20 @@ BENCHMARK(BM_<<lib_name>>);
 
 // Run the benchmark
 BENCHMARK_MAIN();
+'''
+
+sample_template = '''
+#include "<<lib_name>>.h"
+#include <iostream>
+#include <glog/logging.h>
+
+using namespace <<full_namespace>>;
+
+int main(int argc, char **argv) {
+    google::InitGoogleLogging(argv[0]);
+    std::cout << "Hello <<lib_name>>: " << <<lib_name>>() << std::endl;
+    return EXIT_SUCCESS;
+}
 '''
 
 def snake_case(s):
@@ -158,6 +182,7 @@ def create_lib(path):
     create_file(f'{path}/{lib_name}_test.cc', test_template)
     create_file(f'{path}/BUILD', BUILD_template)
     create_file(f'{path}/{lib_name}_benchmark.cc', benchmark_template)
+    create_file(f'{path}/{lib_name}_sample.cc', sample_template)
 
 
 main()

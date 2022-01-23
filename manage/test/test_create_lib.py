@@ -11,8 +11,8 @@ class TestCreateLib(TestCase):
 
     def test_creates_a_buildable_library(self):
         os.system(f'cd .. && python3 manage/create_lib.py lib/{self.name}/package1/package')
-        res = os.system(f'cd .. && bazel build //lib/{self.name}/package1/package:package')
-        self.assertEqual(0, res)
+        self.assertEqual(0, os.system(f'cd .. && bazel build //lib/{self.name}/package1/package:package'))
+        self.assertEqual(0, os.system(f'cd .. && bazel run //lib/{self.name}/package1/package:package_sample'))
 
     @property
     def _random_name(self):
