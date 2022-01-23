@@ -1,6 +1,13 @@
 import os
 import sys 
 import re
+import argparse
+
+def main():
+    parser = argparse.ArgumentParser(description='Creates a new module')
+    parser.add_argument('path', help='path to the module in lib')
+    args = parser.parse_args()
+    create_lib(args.path)
 
 h_template = '''
 #ifndef LIB_<<LIB_NAME>>_H_
@@ -154,4 +161,4 @@ def create_lib(path):
     create_file(f'{path}/{lib_name}_benchmark.cc', benchmark_template)
 
 
-create_lib(sys.argv[1])
+main()
