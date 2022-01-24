@@ -9,6 +9,7 @@
                 "${workspaceFolder}/bazel-cxx_math/external/gtest/googlemock/include/**",
                 "${workspaceFolder}/bazel-cxx_math/external/com_google_absl/**",
                 "${workspaceFolder}/bazel-cxx_math/external/eigen/**",
+                "${workspaceFolder}/bazel-cxx_math/external/argparse/include/**",
                 "${workspaceFolder}/bazel-cxx_math/external/json/single_include"
             ],
             "defines": [],

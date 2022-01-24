@@ -7,13 +7,15 @@ cc_binary(
     name = "<<name>>",
     srcs = ["<<name>>.cc"],
     deps = [
-        "@com_github_google_glog//:glog",        
+        "@com_github_google_glog//:glog",
+        "@argparse//:argparse",       
     ]
 )
 '''
 
 cc_template = '''
 #include <glog/logging.h>
+#include <argparse/argparse.hpp>
 
 /**
  * @brief app: <<name>>
@@ -26,7 +28,26 @@ cc_template = '''
  */
 int main(int argc, char **argv) {
     google::InitGoogleLogging(argv[0]);
+    
+    argparse::ArgumentParser parser("<<name>>");
+    // TODO: specify args
+    parser.add_argument("name") 
+        .help("your name")
+        .default_value(std::string("world"));
+    parser.add_argument("-v", "--verbose");
+
+    try {
+        parser.parse_args(argc, argv);
+    }
+    catch (const std::runtime_error& err) {
+        std::cerr << err.what() << std::endl;
+        std::cerr << parser;
+        std::exit(1);
+    }
+
     // TODO: implement me
+    auto who = parser.get<std::string>("name");
+
     return EXIT_SUCCESS;
 }
 '''
