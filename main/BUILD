@@ -29,13 +29,15 @@ cc_binary(
     ]
 )
 
-cc_binary(
+cc_test(
     name = "pbt",
     srcs = [
         "pbt.cc"
     ],
     deps = [
-        "@rapidcheck//:rapidcheck"
+        "@rapidcheck//:rapidcheck",
+        "@gtest//:gtest",
+        "@gtest//:gtest_main"
     ]
 )
 
