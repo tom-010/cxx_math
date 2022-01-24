@@ -21,11 +21,8 @@ math-things in C++.
 * doctests 
 * dbc2test: pre- and post-conditions
 * doxygen
-* property based testing
 * property based testing as doctest
 * xtensor
-* argparse
-* infer
 * bdd
 * muation-testing
 * python, js, java, flutter bindings

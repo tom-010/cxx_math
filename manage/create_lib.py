@@ -14,7 +14,7 @@ h_template = '''
 
 <<start_of_namespace>>
 
-int <<lib_name>>();
+int <<lib_name>>(int input);
 
 <<end_of_namespace>>
 
@@ -27,8 +27,8 @@ cc_template = '''
 
 <<start_of_namespace>>
 
-int <<lib_name>>() {
-    return 0;
+int <<lib_name>>(int input) {
+    return input;
 }
 
 <<end_of_namespace>>
@@ -51,7 +51,8 @@ cc_test(
     deps = [
         ":<<lib_name>>",
         "@gtest//:gtest",
-        "@gtest//:gtest_main"
+        "@gtest//:gtest_main",
+        "@rapidcheck//:rapidcheck",
     ]
 )
 
@@ -78,12 +79,18 @@ cc_binary(
 test_template = '''
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
+#include <rapidcheck/gtest.h>
 #include "<<lib_name>>.h"
 
 using namespace <<full_namespace>>;
 
 TEST(<<lib_name>>, nothing) {
-    EXPECT_EQ(0, <<lib_name>>()); // TODO: implement me
+    EXPECT_EQ(0, <<lib_name>>(0)); // TODO: implement me
+}
+
+RC_GTEST_PROP(package, pbt_identity, (const int &i)) {
+    // TODO: implement me. Docs: https://github.com/emil-e/rapidcheck/tree/master/doc
+    RC_ASSERT(i == package(i));
 }
 '''
 
@@ -116,7 +123,7 @@ using namespace <<full_namespace>>;
 
 int main(int argc, char **argv) {
     google::InitGoogleLogging(argv[0]);
-    std::cout << "Hello <<lib_name>>: " << <<lib_name>>() << std::endl;
+    std::cout << "Hello <<lib_name>>: " << <<lib_name>>(123) << std::endl;
     return EXIT_SUCCESS;
 }
 '''
