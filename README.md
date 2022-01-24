@@ -16,6 +16,7 @@ math-things in C++.
 
 ## TODO
 
+* std20 as bazel compiler option. Recommended compiler settings
 * Interesting queries (targets, test, messages) as scripts
 * doctests 
 * dbc2test: pre- and post-conditions
@@ -27,7 +28,8 @@ math-things in C++.
 * infer
 * bdd
 * muation-testing
-* python, js, java bindings
+* python, js, java, flutter bindings
+* fuzzying
 
 
 ## Branches of Mathematic
