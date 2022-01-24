@@ -17,11 +17,7 @@ math-things in C++.
 ## TODO
 
 * Generators
-  * Create sample with every module
-  * Create lib
-  * Create app
   * Create message
-  * Create test
 * Scripts:
   * Query targets
   * Query tests
@@ -30,6 +26,12 @@ math-things in C++.
 * doxygen
 * property based testing
 * property based testing as doctest
+* xtensor
+* argparse
+* infer
+* bdd
+* muation-testing
+* python, js, java bindings
 
 
 ## Branches of Mathematic

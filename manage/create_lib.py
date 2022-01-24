@@ -47,9 +47,7 @@ cc_library(
 
 cc_test(
     name = "<<lib_name>>_test",
-    srcs = [
-        "<<lib_name>>_test.cc"
-    ],
+    srcs = glob(["*_test.cc"]),
     deps = [
         ":<<lib_name>>",
         "@gtest//:gtest",
@@ -85,7 +83,7 @@ test_template = '''
 using namespace <<full_namespace>>;
 
 TEST(<<lib_name>>, nothing) {
-    EXPECT_EQ(<<lib_name>>(), 1);
+    EXPECT_EQ(0, <<lib_name>>()); // TODO: implement me
 }
 '''
 
