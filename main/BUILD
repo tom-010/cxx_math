@@ -29,6 +29,16 @@ cc_binary(
     ]
 )
 
+cc_binary(
+    name = "pbt",
+    srcs = [
+        "pbt.cc"
+    ],
+    deps = [
+        "@rapidcheck//:rapidcheck"
+    ]
+)
+
 cc_test(
     name = "hello_test",
     srcs = [
