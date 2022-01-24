@@ -50,5 +50,6 @@ cc_test(
         ":hello_greet",
         "@gtest//:gtest",
         "@gtest//:gtest_main"
-    ]
+    ],
+    data = ["testdata/somefile.txt"]
 )

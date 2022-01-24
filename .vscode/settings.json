@@ -98,6 +98,11 @@
         "scoped_allocator": "cpp",
         "span": "cpp",
         "typeindex": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "__string": "cpp",
+        "ios": "cpp",
+        "filesystem": "cpp",
+        "charconv": "cpp",
+        "shared_mutex": "cpp"
     },
 }
