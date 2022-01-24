@@ -9,7 +9,7 @@
 #include "Eigen/Dense"
 #include "nlohmann/json.hpp"
 #include "messages/address.pb.h" 
-
+#include <argparse/argparse.hpp>
 
 void check_cpp_20()
 {
@@ -84,17 +84,30 @@ int main(int argc, char **argv)
 {
     google::InitGoogleLogging(argv[0]); // GLOG_logtostderr=1 bazel run //main:hello_world
 
+    argparse::ArgumentParser parser("hello world");
+    parser.add_argument("name")
+        .help("your name")
+        .default_value(std::string("world"));
+    parser.add_argument("-v", "--verbose");
+
+    try {
+        parser.parse_args(argc, argv);
+    }
+    catch (const std::runtime_error& err) {
+        std::cerr << err.what() << std::endl;
+        std::cerr << parser;
+        std::exit(1);
+    }
+    auto who = parser.get<std::string>("name");
+
+
     check_absl();
     check_cpp_20();
     check_eigen();
     check_json();
     check_proto();
 
-    std::string who = "world";
-    if (argc > 1)
-    {
-        who = argv[1];
-    }
+
     std::cout << get_greet(who) << std::endl;
     print_localtime();
     return EXIT_SUCCESS;
