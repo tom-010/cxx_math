@@ -16,13 +16,9 @@ math-things in C++.
 
 ## TODO
 
-* Generators
-  * Create message
-* Scripts:
-  * Query targets
-  * Query tests
+* Interesting queries (targets, test, messages) as scripts
 * doctests 
-* pre- and post-conditions
+* dbc2test: pre- and post-conditions
 * doxygen
 * property based testing
 * property based testing as doctest
