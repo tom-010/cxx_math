@@ -10,6 +10,7 @@
 #include "nlohmann/json.hpp"
 #include "messages/address.pb.h" 
 #include <argparse/argparse.hpp>
+#include "re2/re2.h"
 
 void check_cpp_20()
 {
@@ -80,6 +81,12 @@ void check_proto() {
 
 }
 
+void check_re2() {
+    if(RE2::FullMatch("hello", "h.*o")) {
+        std::cout << "re2 is working" << std::endl;
+    }
+}
+
 int main(int argc, char **argv)
 {
     google::InitGoogleLogging(argv[0]); // GLOG_logtostderr=1 bazel run //main:hello_world
@@ -106,6 +113,7 @@ int main(int argc, char **argv)
     check_eigen();
     check_json();
     check_proto();
+    check_re2();
 
 
     std::cout << get_greet(who) << std::endl;

@@ -89,6 +89,15 @@ http_archive(
 )
 
 http_archive(
+    name = "re2",
+    strip_prefix = "re2-2021-11-01",
+    sha256 = "3a20f05c57f907f78b817a53f2fb6e48077d2b1d0b17b39caf875c20f262230b",
+    urls = [
+        "https://github.com/google/re2/archive/refs/tags/2021-11-01.zip"
+    ]
+)
+
+http_archive(
     name = "rules_python",
     sha256 = "e5470e92a18aa51830db99a4d9c492cc613761d5bdb7131c04bd92b9834380f6",
     strip_prefix = "rules_python-4b84ad270387a7c439ebdccfd530e2339601ef27",

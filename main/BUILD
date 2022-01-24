@@ -16,7 +16,8 @@ cc_binary(
         "@com_google_absl//absl/strings",
         "@eigen//:eigen",
         "@json//:json",
-        "@argparse//:argparse"
+        "@argparse//:argparse",
+        "@re2//:re2"
     ]
 )
 
