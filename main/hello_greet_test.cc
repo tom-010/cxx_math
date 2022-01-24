@@ -28,18 +28,13 @@ TEST(GreetingShould, ReturnHelloWorld) {
 
 
 std::vector<std::string> ReadLines(std::string path) {
-    std::vector<std::string> vec;
-
     std::ifstream file_in(path);
-    system("ls main");
     if (!file_in) 
         throw std::invalid_argument("file not found");
-
+    std::vector<std::string> vec;
     std::string line;
     while (std::getline(file_in, line))
-    {
         vec.emplace_back(line);
-    }
     return vec;
 }
 

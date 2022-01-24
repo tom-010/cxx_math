@@ -10,7 +10,7 @@ class TestCreateLib(TestCase):
         os.system(f'cd .. && rm lib/{self.name} -r')
 
     def test_creates_a_buildable_library(self):
-        os.system(f'cd .. && python3 manage/create_lib.py lib/{self.name}/package1/package')
+        os.system(f'cd .. && python3 manage/create_lib.py lib/{self.name}/package1/package --with_testdata')
         self.assertEqual(0, os.system(f'cd .. && bazel build //lib/{self.name}/package1/package:package'))
         self.assertEqual(0, os.system(f'cd .. && bazel run //lib/{self.name}/package1/package:package_sample'))
 

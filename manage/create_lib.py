@@ -5,8 +5,52 @@ import argparse
 def main():
     parser = argparse.ArgumentParser(description='Creates a new module')
     parser.add_argument('path', help='path to the module in lib')
+    parser.add_argument('--with_testdata', action='store_true', help='add example test data and use it')
     args = parser.parse_args()
-    create_lib(args.path)
+    create_lib(args.path, with_testdata=args.with_testdata)
+
+
+def create_lib(path, with_testdata=False):
+    # prepeare path
+    parts = path.split('/')
+    if parts[0] == 'lib':
+        parts = parts[1:]
+    path = 'lib/' + '/'.join(parts)
+
+    # prepare folders and BUILDs
+    os.system('mkdir -p '+path)
+    current_path = 'lib'
+    for part in parts:
+        current_path += '/' + part
+        os.system('touch ' + current_path + '/BUILD')
+
+    # create the testdata
+    testdata_include_ = testdata_include if with_testdata else ''
+    testdata_usage_ = testdata_usage if with_testdata else ''
+    testdata_cpp_includes_ = testdata_cpp_includes if with_testdata else ''
+
+    test_template_ = test_template.replace('<<testdata_usage>>', testdata_usage_)
+    test_template_ = test_template_.replace('<<testdata_cpp_includes>>', testdata_cpp_includes_)
+    BUILD_template_ = BUILD_template.replace('<<testdata_include>>', testdata_include_)
+
+    if with_testdata:
+        os.system('mkdir -p ' + path + '/testdata')
+        with open(path + '/testdata/data.txt', 'w') as f:
+            f.write('filecontent\n')
+
+    
+
+    # Add the new lib in the created folder
+    lib_name = parts[-1]
+    create_file(f'{path}/{lib_name}.h', h_template)
+    create_file(f'{path}/{lib_name}.cc', cc_template)
+    create_file(f'{path}/{lib_name}_test.cc', test_template_)
+    create_file(f'{path}/BUILD', BUILD_template_)
+    create_file(f'{path}/{lib_name}_benchmark.cc', benchmark_template)
+    create_file(f'{path}/{lib_name}_sample.cc', sample_template)
+
+    
+        
 
 h_template = '''
 #ifndef LIB_<<LIB_NAME>>_H_
@@ -34,6 +78,10 @@ int <<lib_name>>(int input) {
 <<end_of_namespace>>
 '''
 
+testdata_include = ''',
+    data = ["testdata/data.txt"]
+'''
+
 BUILD_template = '''
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
@@ -53,7 +101,7 @@ cc_test(
         "@gtest//:gtest",
         "@gtest//:gtest_main",
         "@rapidcheck//:rapidcheck",
-    ]
+    ]<<testdata_include>>
 )
 
 cc_binary(
@@ -80,7 +128,7 @@ test_template = '''
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 #include <rapidcheck/gtest.h>
-#include "<<lib_name>>.h"
+#include "<<lib_name>>.h"<<testdata_cpp_includes>>
 
 using namespace <<full_namespace>>;
 
@@ -92,7 +140,31 @@ RC_GTEST_PROP(package, pbt_identity, (const int &i)) {
     // TODO: implement me. Docs: https://github.com/emil-e/rapidcheck/tree/master/doc
     RC_ASSERT(i == package(i));
 }
+<<testdata_usage>>
 '''
+
+testdata_cpp_includes = '''
+#include <vector>
+#include <string>
+#include <fstream>
+'''
+
+testdata_usage = '''
+std::vector<std::string> ReadLines(std::string path) {
+    std::ifstream file_in(path);
+    if (!file_in) throw std::invalid_argument("file not found");
+    std::vector<std::string> vec;
+    std::string line;
+    while (std::getline(file_in, line)) vec.emplace_back(line);
+    return vec;
+}
+
+TEST(<<lib_name>>, TestDataSample) {
+    auto lines = ReadLines("<<lib_path>>/testdata/data.txt");
+    EXPECT_EQ("filecontent", lines[0]);
+}
+'''
+
 
 benchmark_template = '''
 #include <benchmark/benchmark.h>
@@ -104,7 +176,7 @@ static void BM_<<lib_name>>(benchmark::State& state) {
   // Perform setup here
   for (auto _ : state) {
     // This code gets timed
-    <<lib_name>>();
+    <<lib_name>>(0);
   }
 }
 BENCHMARK(BM_<<lib_name>>);
@@ -134,10 +206,12 @@ def snake_case(s):
 def create_file(path, template):
     template = '\n'.join(template.split('\n')[1:])
     lib_name = path.split('/')[-2]
+    lib_path = '/'.join(path.split('/')[:-1])
     full_lib_name = '/'.join(path.split('/')[1:-1]) + '/' + lib_name
     template = template.replace('<<lib_name>>', lib_name)
     template = template.replace('<<full_lib_name>>', full_lib_name)
     template = template.replace('<<LIB_NAME>>', full_lib_name.upper().replace('/', '_'))
+    template = template.replace('<<lib_path>>', lib_path)
 
     parts = path.split('/')[1:-1]
     full_namespace = '::'.join([snake_case(s) for s in parts])
@@ -166,28 +240,6 @@ def create_file(path, template):
     with open(path, 'w') as file:
         file.write(template)
 
-def create_lib(path):
-    # prepeare path
-    parts = path.split('/')
-    if parts[0] == 'lib':
-        parts = parts[1:]
-    path = 'lib/' + '/'.join(parts)
-
-    # prepare folders and BUILDs
-    os.system('mkdir -p '+path)
-    current_path = 'lib'
-    for part in parts:
-        current_path += '/' + part
-        os.system('touch ' + current_path + '/BUILD')
-
-    # Add the new lib in the created folder
-    lib_name = parts[-1]
-    create_file(f'{path}/{lib_name}.h', h_template)
-    create_file(f'{path}/{lib_name}.cc', cc_template)
-    create_file(f'{path}/{lib_name}_test.cc', test_template)
-    create_file(f'{path}/BUILD', BUILD_template)
-    create_file(f'{path}/{lib_name}_benchmark.cc', benchmark_template)
-    create_file(f'{path}/{lib_name}_sample.cc', sample_template)
 
 
 main()
