@@ -17,7 +17,8 @@ cc_binary(
         "@eigen//:eigen",
         "@json//:json",
         "@argparse//:argparse",
-        "@re2//:re2"
+        "@re2//:re2",
+        "@com_github_google_leveldb//:leveldb"
     ]
 )
 

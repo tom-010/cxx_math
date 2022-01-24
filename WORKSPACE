@@ -135,3 +135,11 @@ http_archive(
 )
 load("@hedron_compile_commands//:workspace_setup.bzl", "hedron_compile_commands_setup")
 hedron_compile_commands_setup()
+
+
+######
+
+load("//bazel/3rdparty/bazel-rules-leveldb:repos.bzl", leveldb_repos="repos")
+leveldb_repos()
+load("@com_github_3rdparty_bazel_rules_leveldb//bazel:deps.bzl", leveldb_deps="deps")
+leveldb_deps()

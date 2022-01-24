@@ -11,6 +11,8 @@
 #include "messages/address.pb.h" 
 #include <argparse/argparse.hpp>
 #include "re2/re2.h"
+#include "leveldb/db.h"
+
 
 void check_cpp_20()
 {
@@ -87,6 +89,16 @@ void check_re2() {
     }
 }
 
+void check_leveldb() {
+    leveldb::DB* db;
+    leveldb::Options options;
+    options.create_if_missing = true;
+    leveldb::Status status = leveldb::DB::Open(options, "/tmp/testdb", &db);
+    std::cout << "leveldb ok" << std::endl;
+    // https://github.com/google/leveldb/blob/main/doc/index.md
+    delete db;
+}
+
 int main(int argc, char **argv)
 {
     google::InitGoogleLogging(argv[0]); // GLOG_logtostderr=1 bazel run //main:hello_world
@@ -114,6 +126,7 @@ int main(int argc, char **argv)
     check_json();
     check_proto();
     check_re2();
+    check_leveldb();
 
 
     std::cout << get_greet(who) << std::endl;
