@@ -4,7 +4,9 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**", 
-                "${workspaceFolder}/bazel-cxx_math/external/**",
+                "${workspaceFolder}/bazel-cxx_math/external/xsimd/include/**",
+                "${workspaceFolder}/bazel-cxx_math/external/xtensor/include/**",
+                "${workspaceFolder}/bazel-cxx_math/external/xtl/include/**",
                 "${workspaceFolder}/bazel-cxx_math/external/gtest/googletest/include/**",
                 "${workspaceFolder}/bazel-cxx_math/external/gtest/googlemock/include/**",
                 "${workspaceFolder}/bazel-cxx_math/external/com_google_absl/**",

@@ -32,6 +32,15 @@ cc_binary(
     ]
 )
 
+cc_binary(
+    name = "benchmark_simd",
+    srcs = ["benchmark_simd.cc"],
+    deps = [
+        "@xtensor//:xtensor",
+        "@com_google_benchmark//:benchmark", 
+    ]
+)
+
 cc_test(
     name = "pbt",
     srcs = [
