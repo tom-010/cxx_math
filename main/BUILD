@@ -18,7 +18,8 @@ cc_binary(
         "@json//:json",
         "@argparse//:argparse",
         "@re2//:re2",
-        "@com_github_google_leveldb//:leveldb"
+        "@com_github_google_leveldb//:leveldb",
+        "@xtensor//:xtensor"
     ]
 )
 

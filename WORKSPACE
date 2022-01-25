@@ -79,6 +79,35 @@ http_archive(
 )
 
 http_archive(
+    name = "xsimd",
+    build_file = "//bazel/third_party:xsimd.BUILD",
+    strip_prefix = "xsimd-8.0.5",
+    urls = [
+        "https://github.com/xtensor-stack/xsimd/archive/refs/tags/8.0.5.zip"
+    ]
+)
+
+http_archive(
+    name = "xtl",
+    build_file = "//bazel/third_party:xtl.BUILD",
+    strip_prefix = "xtl-0.7.4",
+    sha256 = "5e0bea21c3a134e23c73082e0eec3d9e4fbec56e3a434526460042b6c26695a7",
+    urls = [
+        "https://github.com/xtensor-stack/xtl/archive/refs/tags/0.7.4.zip"
+    ]
+)
+
+http_archive(
+    name = "xtensor",
+    build_file = "//bazel/third_party:xtensor.BUILD",
+    sha256 = "0823e26127fa387efa45b77c2d151ad38e0f9a490850729821f9a8ae399d0069",
+    strip_prefix = "xtensor-0.24.0",
+    urls = [
+        "https://github.com/xtensor-stack/xtensor/archive/refs/tags/0.24.0.zip"
+    ]
+)
+
+http_archive(
     name="rapidcheck",
     build_file = "//bazel/third_party:rapidcheck.BUILD",
     sha256 = "4b1f727cc942b04d7e0f6bd8500163d870c3e8ed93d24644397c6685b039314b",

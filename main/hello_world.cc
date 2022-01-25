@@ -13,6 +13,9 @@
 #include "re2/re2.h"
 #include "leveldb/db.h"
 #include <memory>
+#include "xtensor/xarray.hpp"
+#include "xtensor/xio.hpp"
+#include "xtensor/xview.hpp"
 
 
 void check_cpp_20()
@@ -115,6 +118,21 @@ void check_leveldb() {
     delete db;
 }
 
+void check_xtensor() {
+    xt::xarray<double> arr1
+    {{1.0, 2.0, 3.0},
+    {2.0, 5.0, 7.0},
+    {2.0, 5.0, 7.0}};
+
+    xt::xarray<double> arr2
+    {5.0, 6.0, 7.0};
+
+    xt::xarray<double> res = xt::view(arr1, 1) + arr2;
+
+    std::cout << res << std::endl;
+    std::cout << "xtensor works" << std::endl;
+}
+
 int main(int argc, char **argv)
 {
     google::InitGoogleLogging(argv[0]); // GLOG_logtostderr=1 bazel run //main:hello_world
@@ -143,6 +161,7 @@ int main(int argc, char **argv)
     check_proto();
     check_re2();
     check_leveldb();
+    check_xtensor();
 
 
     std::cout << get_greet(who) << std::endl;
