@@ -137,9 +137,20 @@ load("@hedron_compile_commands//:workspace_setup.bzl", "hedron_compile_commands_
 hedron_compile_commands_setup()
 
 
-######
+http_archive(
+    name = "rules_foreign_cc",
+    url = "https://github.com/bazelbuild/rules_foreign_cc/archive/0.2.0.tar.gz",
+    sha256 = "d54742ffbdc6924f222d2179f0e10e911c5c659c4ae74158e9fe827aad862ac6",
+    strip_prefix = "rules_foreign_cc-0.2.0",
+)
+load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
+rules_foreign_cc_dependencies()
 
-load("//bazel/3rdparty/bazel-rules-leveldb:repos.bzl", leveldb_repos="repos")
-leveldb_repos()
-load("@com_github_3rdparty_bazel_rules_leveldb//bazel:deps.bzl", leveldb_deps="deps")
-leveldb_deps()
+
+http_archive(
+    name = "com_github_google_leveldb",
+    url = "https://github.com/google/leveldb/archive/refs/tags/1.23.zip",
+    sha256 = "a6fa7eebd11de709c46bf1501600ed98bf95439d6967963606cc964931ce906f",
+    strip_prefix = "leveldb-1.23",
+    build_file = "//bazel/third_party:leveldb.BUILD",
+)
