@@ -12,6 +12,7 @@
 #include <argparse/argparse.hpp>
 #include "re2/re2.h"
 #include "leveldb/db.h"
+#include <memory>
 
 
 void check_cpp_20()
@@ -94,8 +95,23 @@ void check_leveldb() {
     leveldb::Options options;
     options.create_if_missing = true;
     leveldb::Status status = leveldb::DB::Open(options, "/tmp/testdb", &db);
-    std::cout << "leveldb ok" << std::endl;
+    if (!status.ok()) {
+        std::cout << "leveldb not ok!" << std::endl;
+        std::cout << status.ToString() << std::endl;
+    }
+
     // https://github.com/google/leveldb/blob/main/doc/index.md
+
+    std::string original_value = "leveldb ok";
+    std::string value;
+    std::string key = "my-key";
+    leveldb::Status s = db->Put(leveldb::WriteOptions(), key, original_value);
+    if (s.ok()) s = db->Get(leveldb::ReadOptions(), key, &value);
+    if (s.ok()) s = db->Delete(leveldb::WriteOptions(), key);
+
+
+    std::cout << value << std::endl; // should output leveldb ok
+
     delete db;
 }
 

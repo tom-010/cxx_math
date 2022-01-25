@@ -103,6 +103,8 @@
         "ios": "cpp",
         "filesystem": "cpp",
         "charconv": "cpp",
-        "shared_mutex": "cpp"
+        "shared_mutex": "cpp",
+        "__functional_base": "cpp",
+        "locale": "cpp"
     },
 }

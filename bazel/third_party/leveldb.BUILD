@@ -7,6 +7,8 @@ filegroup(
     visibility = ["//visibility:public"]
 )
 
+# TODO: https://github.com/cschuet/leveldb uses ports.h to configure leveld. Do I need this?
+
 cmake(
     name = "leveldb",
     visibility = ["//visibility:public"],
