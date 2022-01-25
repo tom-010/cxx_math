@@ -62,7 +62,7 @@ void check_eigen()
 }
 
 void check_json() {
-    using json = nlohmann::json;
+    // using json = nlohmann::json;
 
     // or even nicer with a raw string literal
     auto j = R"(
