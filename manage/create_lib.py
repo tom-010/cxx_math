@@ -56,6 +56,13 @@ h_template = '''
 #ifndef LIB_<<LIB_NAME>>_H_
 #define LIB_<<LIB_NAME>>_H_
 
+#pragma GCC diagnostic push 
+#pragma GCC diagnostic ignored "-Wpedantic"
+// Here go the includes, that cause -Wpedantic warnings, e.g. #include <evil_file>
+#pragma GCC diagnostic pop
+// #include <normal_include> normal includes go here
+
+
 <<start_of_namespace>>
 
 int <<lib_name>>(int input);
@@ -88,6 +95,7 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 cc_library(
     name = "<<lib_name>>",
     srcs = ["<<lib_name>>.cc"],
+    copts = ["-Wpedantic"],
     hdrs = ["<<lib_name>>.h"],
     deps = ["@com_github_google_glog//:glog"],
     visibility = ["//main:__pkg__"]
