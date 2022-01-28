@@ -2,4 +2,4 @@
 
 set -e
 
-bazel test ... --test_output=errors
+bazel test --config=test ... --test_output=errors

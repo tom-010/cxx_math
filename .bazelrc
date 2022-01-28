@@ -1,1 +1,10 @@
 build --action_env=BAZEL_CXXOPTS="-std=c++20:-Werror:-Wall"
+
+
+build:test --strip=never
+build:test --copt -fsanitize=address,undefined
+build:test --linkopt -fsanitize=address,undefined
+build:test --copt -O1
+build:test --copt -g
+build:test --copt -fno-omit-frame-pointer
+build:test --linkopt -fsanitize=address,undefined
