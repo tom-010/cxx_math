@@ -201,6 +201,12 @@ int main(int argc, char **argv)
     check_xtensor();
     check_di();
 
+    int a = 0;
+    int* a_ptr = &a;
+    for(int i=0; i<10; i++) {
+        std::cout << a_ptr[i] << '\n';
+    }
+
     std::cout << get_greet(who) << std::endl;
     print_localtime();
     return EXIT_SUCCESS;

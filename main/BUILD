@@ -7,6 +7,11 @@ cc_library(
 )
 
 cc_binary(
+    name = "light",
+    srcs = ["light.cc"]
+)
+
+cc_binary(
     name = "hello_world",
     srcs = ["hello_world.cc"],
     deps = [
