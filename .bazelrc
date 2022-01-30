@@ -7,4 +7,3 @@ build:test --linkopt -fsanitize=address,undefined
 build:test --copt -O1
 build:test --copt -g
 build:test --copt -fno-omit-frame-pointer
-build:test --linkopt -fsanitize=address,undefined

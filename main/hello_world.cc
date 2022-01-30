@@ -155,6 +155,7 @@ struct example
     example(std::shared_ptr<interface> i)
     {
         assert(42 == i->get());
+        std::cout << "di works: " << i->get() << '\n';
     }
 };
 
@@ -164,8 +165,8 @@ void check_di()
     const auto injector = di::make_injector(
         di::bind<interface>.to<implementation>());
 
-    auto res = injector.create<std::unique_ptr<example>>();
-    std::cout << "di works" << '\n';
+    injector.create<std::unique_ptr<example>>();
+    
 }
 
 int main(int argc, char **argv)

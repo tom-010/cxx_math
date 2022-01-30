@@ -12,6 +12,10 @@ filegroup(
 cmake(
     name = "leveldb",
     visibility = ["//visibility:public"],
+    env = {
+        "CXXFLAGS": "-Wno-error",
+        "CFLAGS": "-Wno-error"
+    },
     cache_entries = {
         "CMAKE_BUILD_TYPE": "Release",
         "BUILD_SHARED_LIBS": "OFF",
@@ -21,6 +25,8 @@ cmake(
         # 'http_archive'.
         "LEVELDB_BUILD_TESTS": "OFF",
         "LEVELDB_BUILD_BENCHMARKS": "OFF",
+        "CXXFLAGS": "-Wno-error",
+        "CFLAGS": "-Wno-error"
     },
     lib_source = ":all",
     out_static_libs = ["libleveldb.a"],
