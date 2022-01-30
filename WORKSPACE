@@ -69,6 +69,16 @@ http_archive(
 )
 
 http_archive(
+    name = "boost_ext_di",
+    build_file = "//bazel/third_party:boost_ext_di.BUILD",
+    strip_prefix = "di-1.2.0",
+    sha256 = "c3d0cddc478b0138be5cf46eaf00d3610fb36a1bd23fda2d79f296c83f2d22ba",
+    urls = [
+        "https://github.com/boost-ext/di/archive/refs/tags/v1.2.0.zip"
+    ]
+)
+
+http_archive(
     name="argparse",
     build_file = "//bazel/third_party:argparse.BUILD",
     sha256 = "496e3ec5aa52a70591557dbc47a219398320515796c3427637377333c47d52be",

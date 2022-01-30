@@ -8,7 +8,7 @@
 #include "absl/strings/str_join.h"
 #include "Eigen/Dense"
 #include "nlohmann/json.hpp"
-#include "messages/address.pb.h" 
+#include "messages/address.pb.h"
 #include <argparse/argparse.hpp>
 #include "re2/re2.h"
 #include "leveldb/db.h"
@@ -16,7 +16,7 @@
 #include "xtensor/xarray.hpp"
 #include "xtensor/xio.hpp"
 #include "xtensor/xview.hpp"
-
+#include "boost/di.hpp"
 
 void check_cpp_20()
 {
@@ -61,7 +61,8 @@ void check_eigen()
     std::cout << "Eigen workds" << std::endl;
 }
 
-void check_json() {
+void check_json()
+{
     // using json = nlohmann::json;
 
     // or even nicer with a raw string literal
@@ -75,30 +76,34 @@ void check_json() {
     std::cout << "json works" << std::endl;
 }
 
-void check_proto() {
+void check_proto()
+{
     auto a = messages::Address();
     a.set_city("Protobuf works");
     auto s = a.SerializeAsString();
-    
+
     auto a2 = messages::Address();
     a2.ParseFromString(s);
 
     std::cout << a2.city() << std::endl;
-
 }
 
-void check_re2() {
-    if(RE2::FullMatch("hello", "h.*o")) {
+void check_re2()
+{
+    if (RE2::FullMatch("hello", "h.*o"))
+    {
         std::cout << "re2 is working" << std::endl;
     }
 }
 
-void check_leveldb() {
-    leveldb::DB* db;
+void check_leveldb()
+{
+    leveldb::DB *db;
     leveldb::Options options;
     options.create_if_missing = true;
     leveldb::Status status = leveldb::DB::Open(options, "/tmp/testdb", &db);
-    if (!status.ok()) {
+    if (!status.ok())
+    {
         std::cout << "leveldb not ok!" << std::endl;
         std::cout << status.ToString() << std::endl;
     }
@@ -109,28 +114,58 @@ void check_leveldb() {
     std::string value;
     std::string key = "my-key";
     leveldb::Status s = db->Put(leveldb::WriteOptions(), key, original_value);
-    if (s.ok()) s = db->Get(leveldb::ReadOptions(), key, &value);
-    if (s.ok()) s = db->Delete(leveldb::WriteOptions(), key);
-
+    if (s.ok())
+        s = db->Get(leveldb::ReadOptions(), key, &value);
+    if (s.ok())
+        s = db->Delete(leveldb::WriteOptions(), key);
 
     std::cout << value << std::endl; // should output leveldb ok
 
     delete db;
 }
 
-void check_xtensor() {
-    xt::xarray<double> arr1
-    {{1.0, 2.0, 3.0},
-    {2.0, 5.0, 7.0},
-    {2.0, 5.0, 7.0}};
+void check_xtensor()
+{
+    xt::xarray<double> arr1{{1.0, 2.0, 3.0},
+                            {2.0, 5.0, 7.0},
+                            {2.0, 5.0, 7.0}};
 
-    xt::xarray<double> arr2
-    {5.0, 6.0, 7.0};
+    xt::xarray<double> arr2{5.0, 6.0, 7.0};
 
     xt::xarray<double> res = xt::view(arr1, 1) + arr2;
 
     std::cout << res << std::endl;
     std::cout << "xtensor works" << std::endl;
+}
+
+struct interface
+{
+    virtual ~interface() noexcept = default;
+    virtual int get() const = 0;
+};
+
+class implementation : public interface
+{
+public:
+    int get() const override { return 42; }
+};
+
+struct example
+{
+    example(std::shared_ptr<interface> i)
+    {
+        assert(42 == i->get());
+    }
+};
+
+void check_di()
+{
+    namespace di = boost::di;
+    const auto injector = di::make_injector(
+        di::bind<interface>.to<implementation>());
+
+    auto res = injector.create<std::unique_ptr<example>>();
+    std::cout << "di works" << '\n';
 }
 
 int main(int argc, char **argv)
@@ -143,16 +178,17 @@ int main(int argc, char **argv)
         .default_value(std::string("world"));
     parser.add_argument("-v", "--verbose");
 
-    try {
+    try
+    {
         parser.parse_args(argc, argv);
     }
-    catch (const std::runtime_error& err) {
+    catch (const std::runtime_error &err)
+    {
         std::cerr << err.what() << std::endl;
         std::cerr << parser;
         std::exit(1);
     }
     auto who = parser.get<std::string>("name");
-
 
     check_absl();
     check_cpp_20();
@@ -162,7 +198,7 @@ int main(int argc, char **argv)
     check_re2();
     check_leveldb();
     check_xtensor();
-
+    check_di();
 
     std::cout << get_greet(who) << std::endl;
     print_localtime();

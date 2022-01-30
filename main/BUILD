@@ -19,7 +19,8 @@ cc_binary(
         "@argparse//:argparse",
         "@re2//:re2",
         "@com_github_google_leveldb//:leveldb",
-        "@xtensor//:xtensor"
+        "@xtensor//:xtensor",
+        "@boost_ext_di//:di"
     ]
 )
 
