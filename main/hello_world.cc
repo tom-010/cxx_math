@@ -11,7 +11,6 @@
 #include "messages/address.pb.h"
 #include <argparse/argparse.hpp>
 #include "re2/re2.h"
-#include "leveldb/db.h"
 #include <memory>
 #include "xtensor/xarray.hpp"
 #include "xtensor/xio.hpp"
@@ -96,34 +95,6 @@ void check_re2()
     }
 }
 
-void check_leveldb()
-{
-    leveldb::DB *db;
-    leveldb::Options options;
-    options.create_if_missing = true;
-    leveldb::Status status = leveldb::DB::Open(options, "/tmp/testdb", &db);
-    if (!status.ok())
-    {
-        std::cout << "leveldb not ok!" << std::endl;
-        std::cout << status.ToString() << std::endl;
-    }
-
-    // https://github.com/google/leveldb/blob/main/doc/index.md
-
-    std::string original_value = "leveldb ok";
-    std::string value;
-    std::string key = "my-key";
-    leveldb::Status s = db->Put(leveldb::WriteOptions(), key, original_value);
-    if (s.ok())
-        s = db->Get(leveldb::ReadOptions(), key, &value);
-    if (s.ok())
-        s = db->Delete(leveldb::WriteOptions(), key);
-
-    std::cout << value << std::endl; // should output leveldb ok
-
-    delete db;
-}
-
 void check_xtensor()
 {
     xt::xarray<double> arr1{{1.0, 2.0, 3.0},
@@ -197,15 +168,9 @@ int main(int argc, char **argv)
     check_json();
     check_proto();
     check_re2();
-    check_leveldb();
     check_xtensor();
     check_di();
 
-    int a = 0;
-    int* a_ptr = &a;
-    for(int i=0; i<10; i++) {
-        std::cout << a_ptr[i] << '\n';
-    }
 
     std::cout << get_greet(who) << std::endl;
     print_localtime();

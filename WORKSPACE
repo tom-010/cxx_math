@@ -184,12 +184,3 @@ http_archive(
 )
 load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
 rules_foreign_cc_dependencies()
-
-
-http_archive(
-    name = "com_github_google_leveldb",
-    url = "https://github.com/google/leveldb/archive/refs/tags/1.23.zip",
-    sha256 = "a6fa7eebd11de709c46bf1501600ed98bf95439d6967963606cc964931ce906f",
-    strip_prefix = "leveldb-1.23",
-    build_file = "//bazel/third_party:leveldb.BUILD",
-)
