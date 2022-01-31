@@ -47,6 +47,7 @@ def create_lib(path, with_testdata=False):
     create_file(f'{path}/{lib_name}_test.cc', test_template_)
     create_file(f'{path}/BUILD', BUILD_template_)
     create_file(f'{path}/{lib_name}_benchmark.cc', benchmark_template)
+    create_file(f'{path}/{lib_name}_fuzz.cc', fuzz_template)
     create_file(f'{path}/{lib_name}_sample.cc', sample_template)
 
     
@@ -113,6 +114,15 @@ cc_test(
 )
 
 cc_binary(
+    name = "<<lib_name>>_sample",
+    srcs = ["<<lib_name>>_sample.cc"],
+    deps = [
+        ":<<lib_name>>",
+        "@com_github_google_glog//:glog"
+    ]
+)
+
+cc_binary(
     name = "<<lib_name>>_benchmark",
     srcs = ["<<lib_name>>_benchmark.cc"],
     deps = [
@@ -122,15 +132,17 @@ cc_binary(
 )
 
 cc_binary(
-    name = "<<lib_name>>_sample",
-    srcs = ["<<lib_name>>_sample.cc"],
+    name = "<<lib_name>>_fuzz",
+    srcs = ["<<lib_name>>_fuzz.cc"],
+    copts = ["-fsanitize=fuzzer,address"],
+    linkopts = ["-fsanitize=fuzzer,address"],
     deps = [
         ":<<lib_name>>",
-        "@com_github_google_glog//:glog"
     ]
 )
 
 '''
+
 
 test_template = '''
 #include "gtest/gtest.h"
@@ -192,6 +204,21 @@ BENCHMARK(BM_<<lib_name>>);
 
 // Run the benchmark
 BENCHMARK_MAIN();
+'''
+
+
+fuzz_template = '''
+#include <cstdint>
+#include <iostream>
+#include "package.h"
+
+using namespace <<full_namespace>>;
+
+extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
+    <<lib_name>>(*Data);
+    return 0;
+}
+
 '''
 
 sample_template = '''
