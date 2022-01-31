@@ -30,6 +30,15 @@ cc_binary(
 )
 
 cc_binary(
+    name = "fuzz",
+    srcs = ["fuzz.cc"],
+    linkstatic = 1,
+    testonly = 1,
+    copts = ["-fsanitize=fuzzer,address"],
+    linkopts = ["-fsanitize=fuzzer,address"],
+)
+
+cc_binary(
     name = "benchmark",
     srcs = ["benchmark.cc"],
     deps = [

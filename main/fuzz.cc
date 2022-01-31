@@ -9,11 +9,7 @@ std::size_t find_newline(const char *str, const std::size_t size) {
     return loc;
 }
 
-int main() {
-    
+extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
+    find_newline(reinterpret_cast<const char *>(Data), Size);
+    return 0;
 }
-
-// extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
-//     find_newline(reinterpret_cast<const char *>(Data), Size);
-//     return 0;
-// }
