@@ -24,7 +24,8 @@ cc_binary(
         "@argparse//:argparse",
         "@re2//:re2",
         "@xtensor//:xtensor",
-        "@boost_ext_di//:di"
+        "@boost_ext_di//:di",
+        "@com_google_protobuf//:protobuf"
     ]
 )
 
