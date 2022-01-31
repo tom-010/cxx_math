@@ -17,6 +17,7 @@ bazel_skylib_workspace()
 http_archive(
     name = "gtest",
     strip_prefix = "googletest-release-1.11.0",
+    sha256 = "353571c2440176ded91c2de6d6cd88ddd41401d14692ec1f99e35d013feda55a",
     urls = ["https://github.com/google/googletest/archive/refs/tags/release-1.11.0.zip"],
 )
 
@@ -91,6 +92,7 @@ http_archive(
 http_archive(
     name = "xsimd",
     build_file = "//bazel/third_party:xsimd.BUILD",
+    sha256 = "ec88c283315eff01997ef7ed091c388c3ca1596e16a9e676ffddff241f25ba7f",
     strip_prefix = "xsimd-8.0.5",
     urls = [
         "https://github.com/xtensor-stack/xsimd/archive/refs/tags/8.0.5.zip"
@@ -169,6 +171,7 @@ http_archive(
 
 http_archive(
     name = "hedron_compile_commands",
+    sha256 = "39e7607efcaca5abb34314744491492d82d30fcb6f6592d88ae15772da588b42",
     url = "https://github.com/hedronvision/bazel-compile-commands-extractor/archive/084957eaa1bf6e2bd031f50b1f5d04c89273103a.tar.gz",
     strip_prefix = "bazel-compile-commands-extractor-084957eaa1bf6e2bd031f50b1f5d04c89273103a",
 )

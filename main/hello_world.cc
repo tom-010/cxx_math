@@ -3,7 +3,6 @@
 #include <iostream>
 #include <string>
 #include <glog/logging.h>
-#include <ranges>
 #include <vector>
 #include "absl/strings/str_join.h"
 #include "Eigen/Dense"
@@ -16,29 +15,31 @@
 #include "xtensor/xio.hpp"
 #include "xtensor/xview.hpp"
 #include "boost/di.hpp"
+#include <string>
+#include <cstddef>
+#include <concepts>
+ 
 
-void check_cpp_20()
+// Declaration of the concept "Hashable", which is satisfied by any type 'T'
+// such that for values 'a' of type 'T', the expression std::hash<T>{}(a)
+// compiles and its result is convertible to std::size_t
+template<typename T>
+concept Hashable = requires(T a)
 {
-    using std::views::filter;
-    using std::views::reverse;
-    using std::views::transform;
+    { std::hash<T>{}(a) } -> std::convertible_to<std::size_t>;
+};
+ 
+struct meow {};
+ 
+// Constrained C++20 function template:
+template<Hashable T>
+T f(T param) { return param; }
 
-    std::vector<int> numbers = {6, 5, 4, 3, 2, 1};
-
-    // Lambda function that will provide filtering
-    auto is_even = [](int n)
-    { return n % 2 == 0; }; // Process our dataset
-
-    auto results = numbers | filter(is_even) | transform([](int n)
-                                                         { return n++; }) |
-                   reverse;
-
-    // Use lazy evaluation to print out the results
-    for (auto v : results)
-    {
-        std::cout << v << " "; // Output: 3 5 7
-    }
-    std::cout << "cpp20 works" << std::endl;
+void check_cpp20() {
+    using std::operator""s;
+ 
+    std::cout << f("cpp 20 works"s) << '\n';    // OK, std::string satisfies Hashable
+    // f(meow{}); // Error: meow does not satisfy Hashable
 }
 
 void check_absl()
@@ -162,8 +163,8 @@ int main(int argc, char **argv)
     }
     auto who = parser.get<std::string>("name");
 
+    check_cpp20();
     check_absl();
-    check_cpp_20();
     check_eigen();
     check_json();
     check_proto();
