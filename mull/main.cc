@@ -18,6 +18,11 @@ int main() {
     return 1;
   }
 
+//   bool test3 = valid_age(21) == true;
+//   if(!test3) {
+//       return 1;
+//   }
+
   /// success
   return 0;
 }
