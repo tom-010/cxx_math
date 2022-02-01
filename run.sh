@@ -12,9 +12,9 @@ set -e
 # # --ld-search-path=
 # # ldd bin/core-test
 
+rm ./bazel-bin/lib/module/hello/hello_test -f
 bazel build --config=mutant //lib/module/hello:hello_test
 mull-runner-12 \
   ./bazel-bin/lib/module/hello/hello_test \
   --ld-search-path=./bazel-bin/_solib_k8/ \
-  --ld-search-path=/lib/x86_64-linux-gnu \
-  --ide-reporter-show-killed
+  --ld-search-path=/lib/x86_64-linux-gnu

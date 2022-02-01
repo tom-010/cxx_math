@@ -16,7 +16,6 @@ cc_test(
         ":hello",
         "@gtest//:gtest",
         "@gtest//:gtest_main",
-        "@rapidcheck//:rapidcheck",
     ]
 )
 

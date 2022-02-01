@@ -5,8 +5,8 @@ build --per_file_copt=.*external/.*\.cc@-Wno-error
 
 
 
-build:mutant --action_env=MULL_CONFIG=/home/tom/Projects/cxx_math/mull.yml
-build:mutant --action_env=A=3
+build:mutant --action_env=A=2
 build:mutant --action_env=BAZEL_CXXOPTS="-fexperimental-new-pass-manager:-fpass-plugin=/usr/lib/mull-ir-frontend-12:-g:-grecord-command-line"
+build:mutant --action_env=MULL_CONFIG=/home/tom/Projects/cxx_math/mull.yml
 build:mutant --repo_env=CC=clang-12
 
