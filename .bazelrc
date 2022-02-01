@@ -3,9 +3,10 @@ build --action_env=BAZEL_LINKOPTS="-fsanitize-link-c++-runtime:--driver-mode=g++
 build --repo_env=CC=clang
 build --per_file_copt=.*external/.*\.cc@-Wno-error
 
-build:test --strip=never
-build:test --copt -fsanitize=address,undefined
-build:test --linkopt -fsanitize=address,undefined
-build:test --copt -O1
-build:test --copt -g
-build:test --copt -fno-omit-frame-pointer
+
+
+build:mutant --action_env=MULL_CONFIG=/home/tom/Projects/cxx_math/mull.yml
+build:mutant --action_env=A=3
+build:mutant --action_env=BAZEL_CXXOPTS="-fexperimental-new-pass-manager:-fpass-plugin=/usr/lib/mull-ir-frontend-12:-g:-grecord-command-line"
+build:mutant --repo_env=CC=clang-12
+

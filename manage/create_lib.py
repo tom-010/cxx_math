@@ -156,9 +156,10 @@ TEST(<<lib_name>>, nothing) {
     EXPECT_EQ(0, <<lib_name>>(0)); // TODO: implement me
 }
 
-RC_GTEST_PROP(package, pbt_identity, (const int &i)) {
+// property based test
+RC_GTEST_PROP(<<lib_name>>, pbt_identity, (const int &i)) {
     // TODO: implement me. Docs: https://github.com/emil-e/rapidcheck/tree/master/doc
-    RC_ASSERT(i == package(i));
+    RC_ASSERT(i == <<lib_name>>(i));
 }
 <<testdata_usage>>
 '''
@@ -210,7 +211,7 @@ BENCHMARK_MAIN();
 fuzz_template = '''
 #include <cstdint>
 #include <iostream>
-#include "package.h"
+#include "<<lib_name>>.h"
 
 using namespace <<full_namespace>>;
 
